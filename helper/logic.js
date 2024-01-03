@@ -2,6 +2,10 @@
 
 import fs from 'fs';
 import csv from 'csv-parser';
+import path from 'path';
+
+const _dirname =  path.resolve(path.dirname(""))
+
 
 const calculatePercentageChange = (ltp, prevDayClosingP) => (
   prevDayClosingP !== 0 ? ((ltp - prevDayClosingP) / prevDayClosingP) * 100 : 0
@@ -33,8 +37,8 @@ const logic = async (RealTimeData, STOCK_INSTRUMENT, callback) => {
   let snapShot = null;
   if (!prevDayClosingPricesCache && !qty) {
     try {
-      prevDayClosingPricesCache = await readCSVFile("C:/Users/prati/OneDrive/Documents/automate_trading/server/prevDayClosingPrice.csv");
-      qty = await readCSVFile("C:/Users/prati/OneDrive/Documents/automate_trading/server/controller/data.csv")
+      prevDayClosingPricesCache = await readCSVFile( path.join(_dirname, "prevDayClosingPrice.csv"));
+      qty = await readCSVFile( path.join(_dirname, "/controller/data.csv"))
     } catch (error) {
       callback({ error: 'Error reading CSV' });
       return;

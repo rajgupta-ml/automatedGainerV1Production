@@ -9,12 +9,14 @@ import handleLogout from "./controller/handleLogout.js";
 import handleTrading from "./controller/handleTrading.js";
 import handlePrevDayClose from "./helper/handlePrevDayLow.js";
 import handleStopLoss from "./controller/handleStopLoss.js";
+import env from 'dotenv';
+
+env.config();
 
 import path from "path"
 
 const app = express();
-const _dirname = path.dirname("")
-const buildPath = path.join(_dirname, "/dist");
+const buildPath = path.join(path.resolve(path.dirname("")), "/dist")
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -26,22 +28,20 @@ const io = new Server(httpServer, {
 
 
 
+
+
+
 app.use(cors());
 app.use(json())
 app.use(cookieParser());
 
 app.use(express.static(buildPath));
 
-const PORT = 8080  
 
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(_dirname, "/dist/index.html"), (err) => {
-    if(err){
-      res.status(500).send(err);
-    }
-  })
-})
+
+const PORT = process.env.PORT || 8080  
+
 
 
 app.get('/api/auth', handleLoginController)

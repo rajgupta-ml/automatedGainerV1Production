@@ -5,11 +5,14 @@ import protobuf from 'protobufjs';
 import csv from 'csv-parser';
 import fs from 'fs';
 import axios from 'axios';
+import path from 'path';
 
 let protobufRoot = null;
 const NIFT_100 = [];
 const STOCK_INSTRUMENT = [];
 let ws = null;
+const _dirname =  path.resolve(path.dirname(""))
+const fileName = path.join(_dirname, "/controller/data.csv")
 
 export const initWebSocketConnection = async (token, onDataReceived) => {
     const options = {
@@ -41,8 +44,8 @@ export const initWebSocketConnection = async (token, onDataReceived) => {
        
             ws.on('open', function open() {
                 console.log('connected');
-    
-                fs.createReadStream('./controller/data.csv').pipe(csv()).on('data', (data) => {
+                
+                fs.createReadStream(fileName).pipe(csv()).on('data', (data) => {
                     NIFT_100.push(data);
                 }).on('end', () => {
                     console.log("DATA IS READ");

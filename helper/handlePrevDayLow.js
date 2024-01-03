@@ -1,6 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 import csv from 'csv-parser';
+import path from 'path';
 
 const handlePrevDayClose = async (req, res) => {
     const apiEndpoint = 'https://api.upstox.com/v2/historical-candle';
@@ -40,7 +41,10 @@ const handlePrevDayClose = async (req, res) => {
     const delayBetweenRequests = Math.ceil(60 * 1000 / 250);
     const promises = [];
 
-    fs.createReadStream('C:/Users/prati/OneDrive/Documents/automate_trading/server/controller/data.csv')
+
+    const _dirname =  path.resolve(path.dirname(""))
+    const fileName = path.join(_dirname, "/controller/data.csv")
+    fs.createReadStream(fileName)
         .pipe(csv())
         .on('data', (row) => {
             console.log(row["ISIN Code"]);
