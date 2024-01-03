@@ -43,8 +43,7 @@ app.use(express.static(buildPath));
 const PORT = process.env.PORT || 8080  
 
 
-
-app.get('/api/auth', handleLoginController)
+// app.get('/api/auth', handleLoginController)
 app.post ('/api/verify-access-code', handleVerificationController)
 app.post ('/api/logout', handleLogout)
 app.post ('/api/start-trading', handleTrading(io))
